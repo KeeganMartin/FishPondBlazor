@@ -1,0 +1,30 @@
+@page "/"
+@inject IDbService database
+
+
+
+@*<RadzenDataGrid Data="@climates" TItem="Climate">
+    <Columns>
+        <RadzenDataGridColumn Title="Time" TItem="Climate" Property="Time"/>
+        <RadzenDataGridColumn Title="Air Temp" TItem="Climate" Property="AirTemp"/>
+        <RadzenDataGridColumn TItem="Climate" Title="Water Temp" Property="WaterTemp"/>
+        <RadzenDataGridColumn TItem="Climate" Title="Humidity" Property="Humidity"/>
+        <RadzenDataGridColumn TItem="Climate" Title="Water Depth" Property="WaterDepth"/>
+    </Columns>
+</RadzenDataGrid>*@
+<p>Time: @CurrentClimate.Time</p>
+<p>Air Temperature: @CurrentClimate.AirTemp</p>
+<p>Humitity: @CurrentClimate.Humidity</p>
+<p>Water Temperature: @CurrentClimate.WaterTemp</p>
+<p>Water Depth: @CurrentClimate.WaterDepth</p>
+
+@code {
+    IEnumerable<Climate> climates;
+    Climate CurrentClimate = new Climate();
+
+    protected override void OnInitialized()
+    {
+        climates = database.GetAll();
+        CurrentClimate = climates.OrderBy(p => p.Time).LastOrDefault();
+    }
+}
